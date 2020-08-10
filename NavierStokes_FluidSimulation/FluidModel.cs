@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -34,7 +35,7 @@ namespace NavierStokes_FluidSimulation
         public double Diffusion = 0.1d;
         public double Viscosity = 0d;
         public double Buoyancy = 0d;
-        public int Iteration = 20;
+        public int Iteration = 10;
 
         private List<List<double>> PrevDyeR;
         private List<List<double>> DyeR;
@@ -85,10 +86,15 @@ namespace NavierStokes_FluidSimulation
             return result;
         }
 
-        /// <summary>
-        /// Initialize all model array.
-        /// </summary>
-        private void CreateData()
+        private void CreateDataVelocity()
+        {
+            VelocityX = Create2DList(Width, Height);
+            PrevVelocityX = Create2DList(Width, Height);
+            VelocityY = Create2DList(Width, Height);
+            PrevVelocityY = Create2DList(Width, Height);
+        }
+
+        private void CreateDataDye()
         {
             DyeR            = Create2DList(Width, Height);
             PrevDyeR        = Create2DList(Width, Height);
@@ -96,11 +102,17 @@ namespace NavierStokes_FluidSimulation
             PrevDyeG        = Create2DList(Width, Height);
             DyeB            = Create2DList(Width, Height);
             PrevDyeB        = Create2DList(Width, Height);
-            VelocityX       = Create2DList(Width, Height);
-            PrevVelocityX   = Create2DList(Width, Height);
-            VelocityY       = Create2DList(Width, Height);
-            PrevVelocityY   = Create2DList(Width, Height);
         }
+
+        /// <summary>
+        /// Initialize all model array.
+        /// </summary>
+        private void CreateData()
+        {
+            CreateDataDye();
+            CreateDataVelocity();
+        }
+
         #endregion
 
         #region Operations
@@ -156,10 +168,21 @@ namespace NavierStokes_FluidSimulation
             AddCommon(VelocityY, x, y, amountY);
         }
 
-        public void Clear()
+        public void ClearAll()
         {
             CreateData();
         }
+
+        public void ClearVelocity()
+        {
+            CreateDataVelocity();
+        }
+
+        public void ClearDye()
+        {
+            CreateDataDye();
+        }
+       
         #endregion
 
         #region Evaluation and Updating
@@ -167,6 +190,8 @@ namespace NavierStokes_FluidSimulation
         {
             while(State != StateType.Free);
             State = StateType.Updating;
+
+            OptimizeByRoundLists(5);
             
             Sink();
 
@@ -230,7 +255,6 @@ namespace NavierStokes_FluidSimulation
         /// <param name="boundAction"></para
         private void SolveLinear(List<List<double>> array, List<List<double>> prevArray, double a, double c, BoundOption bndOpt)
         {
-            List<List<double>> temp;
             for (int i = 0; i < Iteration; i++)
             {
                 for (int x = 1; x < Width - 1; x++)
@@ -368,7 +392,28 @@ namespace NavierStokes_FluidSimulation
 
         #region Optimization
 
+        private void RoundList(List<List<double>> list, int decimals)
+        {
+            foreach(var l in list)
+                for(int i=0; i<l.Count(); i++)
+                    l[i] = Math.Round(l[i], decimals);
+        }
 
+        private void OptimizeByRoundLists(int decimals)
+        {
+            RoundList(VelocityX, decimals);
+            RoundList(VelocityY, decimals);
+            RoundList(PrevVelocityX, decimals);
+            RoundList(PrevVelocityY, decimals);
+
+            RoundList(DyeR, decimals);
+            RoundList(DyeG, decimals);
+            RoundList(DyeB, decimals);
+
+            RoundList(PrevDyeR, decimals);
+            RoundList(PrevDyeG, decimals);
+            RoundList(PrevDyeB, decimals);
+        }
 
         #endregion
     }

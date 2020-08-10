@@ -1,0 +1,23 @@
+Welcome to CuteTN's Fluid Simulation!!!
+
+<> Basics:
+	- Left click: Add dye.
+	- Right click: Add velocity.
+	- Hold Mode: execute commands as long as the mouse buttons are held.
+	- Render Velocity: render velocity field.
+	- Pause: stop Updating frames.
+
+<> Shortcuts:
+	- P key: Toggle Pause.
+	- V key: Toggle Render velocity.
+	- H key: Toggle Hold mode.
+	- Shift + Backspace: Clear all.
+	- Shift + F key: Set Flow mode to "Free".
+	- Shift + C key: Set Flow mode to "Curl".
+	- Shift + D key: Set Flow mode to "Divergence".
+	- Esc: Exit.
+
+<> Tricks:
+	- Mouse scroll: Increase/Decrease cursor radius.
+	- Hold Ctrl: temporarily toggle Hold mode.
+	- R key: Reverse the Velocity to add.

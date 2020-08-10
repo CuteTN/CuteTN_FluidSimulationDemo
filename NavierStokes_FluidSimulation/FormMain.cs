@@ -64,6 +64,16 @@ namespace NavierStokes_FluidSimulation
         }
         #endregion
 
+        #region Utilities
+        private void Exit()
+        {
+            DialogResult res = MessageBox.Show("Are you sure want to exit?", "CuteTN is so cute", MessageBoxButtons.YesNo);
+
+            if(res == DialogResult.Yes)
+                Application.Exit();
+        }
+        #endregion
+
         #region Event KeyDown
 
         private void HandleHotkeysDown(KeyEventArgs e)
@@ -72,13 +82,13 @@ namespace NavierStokes_FluidSimulation
             {
                 case Keys.Escape:
                     {
-                        Application.Exit();
+                        Exit();
                         break;
                     }
                 case Keys.Back:
                     {
                         if(e.Shift)
-                            Fluid.Clear();
+                            Fluid.ClearAll();
                         break;
                     }
                 case Keys.V:
@@ -99,6 +109,24 @@ namespace NavierStokes_FluidSimulation
                 case Keys.R:
                     {
                         FlowStrengthToAdd = -FlowStrengthToAdd;
+                        break;
+                    }
+                case Keys.F:
+                    {
+                        if(e.Shift)
+                            FlowMode = FlowModeType.Free;
+                        break;
+                    }
+                case Keys.C:
+                    {
+                        if(e.Shift)
+                            FlowMode = FlowModeType.Curl;
+                        break;
+                    }
+                case Keys.D:
+                    {
+                        if(e.Shift)
+                            FlowMode = FlowModeType.Divergence;
                         break;
                     }
                 case Keys.ControlKey:
@@ -353,6 +381,7 @@ namespace NavierStokes_FluidSimulation
         private FlowModeType FlowMode
         {
             get => ToFlowModeType(comboBox_FlowMode.Text);
+            set => comboBox_FlowMode.Text = value.ToString();
         }
 
         private void AddVelocity(Point cell, Point oldCell, double radius, double strength, FlowModeType flowMode)
@@ -550,6 +579,41 @@ namespace NavierStokes_FluidSimulation
         private void numericUpDown_FlowStrength_ValueChanged(object sender, EventArgs e)
         {
             FlowStrengthToAdd = (double)(sender as NumericUpDown).Value;
+        }
+        #endregion
+
+        #region Special Buttons
+        private void button_ClearAll_Click(object sender, EventArgs e)
+        {
+            Fluid.ClearAll();
+        }
+
+        private void button_ClearVelocity_Click(object sender, EventArgs e)
+        {
+            Fluid.ClearVelocity();
+        }
+
+        private void button_ClearDye_Click(object sender, EventArgs e)
+        {  
+            Fluid.ClearDye();
+        }
+
+        private void button_Tips_Click(object sender, EventArgs e)
+        {
+            string title = "CuteTN is so cute";
+            string content = Properties.Resources.TipsTxt;
+
+            MessageBox.Show(content, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void button_SaveImage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_ImportImage_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 

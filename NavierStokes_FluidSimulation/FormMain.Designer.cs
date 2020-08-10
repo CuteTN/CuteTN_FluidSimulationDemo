@@ -57,6 +57,12 @@
             this.numericUpDown_FlowStrength = new System.Windows.Forms.NumericUpDown();
             this.checkBox_HoldMode = new System.Windows.Forms.CheckBox();
             this.label_HoldMode = new System.Windows.Forms.Label();
+            this.button_ClearAll = new System.Windows.Forms.Button();
+            this.button_ClearVelocity = new System.Windows.Forms.Button();
+            this.button_ClearDye = new System.Windows.Forms.Button();
+            this.button_Tips = new System.Windows.Forms.Button();
+            this.button_SaveImage = new System.Windows.Forms.Button();
+            this.button_ImportImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Viscosity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Diffusion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TimeStep)).BeginInit();
@@ -431,6 +437,8 @@
             // 
             this.checkBox_HoldMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox_HoldMode.AutoSize = true;
+            this.checkBox_HoldMode.Checked = true;
+            this.checkBox_HoldMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_HoldMode.Location = new System.Drawing.Point(580, 390);
             this.checkBox_HoldMode.Name = "checkBox_HoldMode";
             this.checkBox_HoldMode.Size = new System.Drawing.Size(98, 21);
@@ -450,12 +458,90 @@
             this.label_HoldMode.TabIndex = 27;
             this.label_HoldMode.Text = "Hold Mode";
             // 
+            // button_ClearAll
+            // 
+            this.button_ClearAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_ClearAll.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_ClearAll.Location = new System.Drawing.Point(679, 917);
+            this.button_ClearAll.Name = "button_ClearAll";
+            this.button_ClearAll.Size = new System.Drawing.Size(109, 44);
+            this.button_ClearAll.TabIndex = 29;
+            this.button_ClearAll.Text = "Clear All";
+            this.button_ClearAll.UseVisualStyleBackColor = true;
+            this.button_ClearAll.Click += new System.EventHandler(this.button_ClearAll_Click);
+            // 
+            // button_ClearVelocity
+            // 
+            this.button_ClearVelocity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_ClearVelocity.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_ClearVelocity.Location = new System.Drawing.Point(679, 867);
+            this.button_ClearVelocity.Name = "button_ClearVelocity";
+            this.button_ClearVelocity.Size = new System.Drawing.Size(109, 44);
+            this.button_ClearVelocity.TabIndex = 30;
+            this.button_ClearVelocity.Text = "Clear Velocity";
+            this.button_ClearVelocity.UseVisualStyleBackColor = true;
+            this.button_ClearVelocity.Click += new System.EventHandler(this.button_ClearVelocity_Click);
+            // 
+            // button_ClearDye
+            // 
+            this.button_ClearDye.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_ClearDye.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_ClearDye.Location = new System.Drawing.Point(679, 817);
+            this.button_ClearDye.Name = "button_ClearDye";
+            this.button_ClearDye.Size = new System.Drawing.Size(109, 44);
+            this.button_ClearDye.TabIndex = 31;
+            this.button_ClearDye.Text = "Clear Dye";
+            this.button_ClearDye.UseVisualStyleBackColor = true;
+            this.button_ClearDye.Click += new System.EventHandler(this.button_ClearDye_Click);
+            // 
+            // button_Tips
+            // 
+            this.button_Tips.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_Tips.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Tips.Location = new System.Drawing.Point(564, 917);
+            this.button_Tips.Name = "button_Tips";
+            this.button_Tips.Size = new System.Drawing.Size(109, 44);
+            this.button_Tips.TabIndex = 32;
+            this.button_Tips.Text = "Tips";
+            this.button_Tips.UseVisualStyleBackColor = true;
+            this.button_Tips.Click += new System.EventHandler(this.button_Tips_Click);
+            // 
+            // button_SaveImage
+            // 
+            this.button_SaveImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_SaveImage.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_SaveImage.Location = new System.Drawing.Point(564, 817);
+            this.button_SaveImage.Name = "button_SaveImage";
+            this.button_SaveImage.Size = new System.Drawing.Size(109, 44);
+            this.button_SaveImage.TabIndex = 33;
+            this.button_SaveImage.Text = "Save Image";
+            this.button_SaveImage.UseVisualStyleBackColor = true;
+            this.button_SaveImage.Click += new System.EventHandler(this.button_SaveImage_Click);
+            // 
+            // button_ImportImage
+            // 
+            this.button_ImportImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_ImportImage.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_ImportImage.Location = new System.Drawing.Point(564, 867);
+            this.button_ImportImage.Name = "button_ImportImage";
+            this.button_ImportImage.Size = new System.Drawing.Size(109, 44);
+            this.button_ImportImage.TabIndex = 34;
+            this.button_ImportImage.Text = "Import Image";
+            this.button_ImportImage.UseVisualStyleBackColor = true;
+            this.button_ImportImage.Click += new System.EventHandler(this.button_ImportImage_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(800, 795);
+            this.ClientSize = new System.Drawing.Size(800, 973);
+            this.Controls.Add(this.button_ImportImage);
+            this.Controls.Add(this.button_SaveImage);
+            this.Controls.Add(this.button_Tips);
+            this.Controls.Add(this.button_ClearDye);
+            this.Controls.Add(this.button_ClearVelocity);
+            this.Controls.Add(this.button_ClearAll);
             this.Controls.Add(this.checkBox_HoldMode);
             this.Controls.Add(this.label_HoldMode);
             this.Controls.Add(this.numericUpDown_FlowStrength);
@@ -539,6 +625,12 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_FlowStrength;
         private System.Windows.Forms.CheckBox checkBox_HoldMode;
         private System.Windows.Forms.Label label_HoldMode;
+        private System.Windows.Forms.Button button_ClearAll;
+        private System.Windows.Forms.Button button_ClearVelocity;
+        private System.Windows.Forms.Button button_ClearDye;
+        private System.Windows.Forms.Button button_Tips;
+        private System.Windows.Forms.Button button_SaveImage;
+        private System.Windows.Forms.Button button_ImportImage;
     }
 }
 
