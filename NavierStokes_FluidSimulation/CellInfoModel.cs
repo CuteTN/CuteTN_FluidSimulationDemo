@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NavierStokes_FluidSimulation
 {
-    struct CellInfoModel
+    public struct CellInfoModel
     {
         readonly public double VelocityX;
         readonly public double VelocityY;

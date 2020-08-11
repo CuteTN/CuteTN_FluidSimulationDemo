@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
@@ -82,7 +83,9 @@ namespace NavierStokes_FluidSimulation
             {
                 case Keys.Escape:
                     {
+                        IsPaused = true;
                         Exit();
+                        IsPaused = false;
                         break;
                     }
                 case Keys.Back:
@@ -161,7 +164,7 @@ namespace NavierStokes_FluidSimulation
                 if(_timer == null)
                 {
                     _timer = new System.Windows.Forms.Timer();
-                    _timer.Interval = 10;
+                    _timer.Interval = 1;
                     _timer.Tick += Timer_Tick;
                 }
                 return _timer;
@@ -172,27 +175,16 @@ namespace NavierStokes_FluidSimulation
         {
             HandleMouseDownHoldMode();
             Refresh();
-
-            /*
-            //TEST
-            if(DateTime.Now.Second % 1 == 0)
-            { 
-                Fluid.AddVelocity(45, 45, 5000, 0);
-                Fluid.AddVelocity(55, 45, 0, 5000);
-                Fluid.AddVelocity(55, 55, -5000, 0);
-                Fluid.AddVelocity(45, 55, 0, -5000);
-            }*/
             
             if(!IsPaused)
                 Fluid.FrameUpdate();
         }
-
-
         #endregion
 
         #region Rendering
         private void RenderFluid(Graphics graphics, Rectangle area)
         {
+            /*
             float cellW = (float)area.Width / Fluid.Width;
             float cellH = (float)area.Height / Fluid.Height;
             SolidBrush b = new SolidBrush(Color.Black);
@@ -210,6 +202,11 @@ namespace NavierStokes_FluidSimulation
 
                     graphics.FillRectangle(b, cellRect);
                 }
+            */
+
+            var bitmap = GenerateBitmap(Fluid);
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(bitmap, area);
         }
 
         private void RenderVelocity(Graphics graphics, Rectangle area)
@@ -233,7 +230,8 @@ namespace NavierStokes_FluidSimulation
                     cellRect.Y = area.Y + y * cellH;
 
                     // render velocity
-                    graphics.DrawLine(p, cellRect.X + cellW / 2, cellRect.Y + cellH / 2, cellRect.X + cellW / 2 + (float)cellInfo.VelocityX / 10, cellRect.Y + cellH / 2 + (float)cellInfo.VelocityY / 10);
+                    float ratio = 1/30f;
+                    graphics.DrawLine(p, cellRect.X + cellW / 2, cellRect.Y + cellH / 2, cellRect.X + cellW / 2 + (float)cellInfo.VelocityX * ratio, cellRect.Y + cellH / 2 + (float)cellInfo.VelocityY * ratio);
                 }
         }
 
@@ -308,19 +306,30 @@ namespace NavierStokes_FluidSimulation
         private void FormMain_MouseDown(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
+            { 
                 LMouseIsDown = true;
+                label_Dye.ForeColor = Color.HotPink;
+            }
             if(e.Button == MouseButtons.Right)
+            { 
                 RMouseIsDown = true;
-            
+                label_Flow.ForeColor = Color.HotPink; 
+            }
             HandleMouseDown();
         }
 
         private void FormMain_MouseUp(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
+            { 
                 LMouseIsDown = false;
+                label_Dye.ForeColor = Color.FromArgb(255, 192, 255);
+            }
             if(e.Button == MouseButtons.Right)
+            {
                 RMouseIsDown = false;
+                label_Flow.ForeColor = Color.FromArgb(255, 192, 255);
+            }
         }
 
         private void FormMain_MouseMove(object sender, MouseEventArgs e)
@@ -608,7 +617,9 @@ namespace NavierStokes_FluidSimulation
 
         private void button_SaveImage_Click(object sender, EventArgs e)
         {
-
+            IsPaused = true;
+            ExportImage();
+            IsPaused = false;
         }
 
         private void button_ImportImage_Click(object sender, EventArgs e)
@@ -617,5 +628,43 @@ namespace NavierStokes_FluidSimulation
         }
         #endregion
 
+        #region Generate Bitmap
+
+        public Bitmap GenerateBitmap(FluidModel fluid)
+        {
+            DirectBitmap bitmap = new DirectBitmap(fluid.Width, fluid.Height);
+            
+            for(int x=0; x<fluid.Width; x++)
+                for(int y=0; y<fluid.Height; y++)
+                {
+                    Color temp = fluid[x,y].Color;
+                    bitmap.SetPixel(x,y,temp);
+                }
+
+            return bitmap.Bitmap;
+        }
+
+        #endregion
+
+        #region Import/Export Image
+
+        public void ExportImage()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Image files | *.png";
+            dlg.DefaultExt = ".png";
+            var res = dlg.ShowDialog();
+
+            if(res == DialogResult.OK)
+            { 
+                var bitmap = GenerateBitmap(Fluid);
+
+                string fileName = dlg.FileName;
+                bitmap.Save(fileName);
+            }
+            
+        }
+
+        #endregion
     }
 }

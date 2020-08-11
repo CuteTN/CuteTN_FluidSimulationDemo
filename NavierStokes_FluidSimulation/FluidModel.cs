@@ -15,7 +15,7 @@ using System.Windows.Forms;
 /// </summary>
 namespace NavierStokes_FluidSimulation
 {
-    class FluidModel
+    public class FluidModel
     {
         #region Main Fields
         private int _width = 0;
